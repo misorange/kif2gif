@@ -36,7 +36,7 @@ export default function RootLayout({
             </div>
             <nav className="flex items-center gap-4">
               <a
-                href="https://github.com/fujis"
+                href="https://github.com/misorange"
                 target="_blank"
                 rel="noreferrer"
                 className="text-zinc-500 hover:text-foreground transition-colors"

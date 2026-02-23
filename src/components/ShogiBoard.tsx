@@ -29,7 +29,7 @@ export default function ShogiBoard({ player, onClose }: ShogiBoardProps) {
     const [uploadError, setUploadError] = useState<string | null>(null);
 
     useEffect(() => {
-        setMaxStep(player.getMaxPly());
+        setMaxStep(player.getMaxTesuu());
         drawBoard(player);
     }, [player]);
 

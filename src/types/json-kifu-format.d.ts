@@ -7,7 +7,7 @@ declare module 'json-kifu-format' {
         kifu: any;
         tesuu: number;
 
-        getMaxPly(): number;
+        getMaxTesuu(): number;
         forward(): boolean;
         backward(): boolean;
         goto(ply: number): void;
