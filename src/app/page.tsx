@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import KifuUploader from "@/components/KifuUploader";
-import ShogiBoard from "@/components/ShogiBoard";
+import dynamic from "next/dynamic";
 import { parseKifuFile } from "@/lib/kifu-parser";
 import { JKFPlayer } from "json-kifu-format";
+
+const ShogiBoard = dynamic(() => import("@/components/ShogiBoard"), { ssr: false });
 
 export default function Home() {
   const [player, setPlayer] = useState<JKFPlayer | null>(null);
