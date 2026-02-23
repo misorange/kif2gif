@@ -1,97 +1,60 @@
-# Kif2Gif Web ☖
+# Kif2Gif Web (将棋の棋譜からGIFを作るアプリ)
 
-将棋の棋譜ファイル（`.kif`, `.kifu`, `.ki2`, `.jkf`）をブラウザ上で読み込み、美しい動くGIFアニメーションとして生成・シェアできるWebアプリケーションです。
+Vercel URL: https://kif2gif.vercel.app/
 
-🌐 **Live Demo:** [https://your-vercel-project.vercel.app](https://your-vercel-project.vercel.app)
+**開発期間**: 2026.02.21 ~ 2026.02.24 (約30時間)
 
-![Home Screen](./docs/screenshot1.png)
+## アプリの概要
+将棋の対局データ（.kifファイルなど）を読み込んで、実際の盤面が動くアニメーションGIFをブラウザ上で簡単に作れるWebアプリです。
+作ったGIFはそのままダウンロードしたり、X（Twitter）でシェアしたりできます。
 
-## ✨ 主な機能
+以前作ったツールをもとに、今回はNext.jsを使ってモダンなWebアプリとして作り直してみました。
 
-*   **ドラッグ＆ドロップで簡単生成:** `.kif` ファイルをアップロードするだけで、盤面の推移を自動でアニメーション化。
-*   **Web Workerによる高速エンコード:** メインスレッドをブロックせず、バックグラウンドでスムーズにGIFを生成（`gif.js` 採用）。
-*   **プレビュー＆プレイヤー機能:** GIFをエクスポートする前に、ブラウザ上で1手ずつ再生・確認が可能。
-*   **モダン＆ミニマルなUI:** Tailwind CSS を駆使したダークモード対応の没入感のあるデザイン。
-*   **OGPシェア対応:** 生成されたGIFは専用のURLとして発行され、X (Twitter) などのSNSでカード付きで展開可能。
-*   **Supabase 停止回避 (Ping処理):** 無料枠のSupabaseプロジェクトが一定期間の非アクティブで停止するのを防ぐため、GitHub Actionsを用いて定期的なPing送信を自動化。
+## スクリーンショット・実際の動作
 
-## 📸 スクリーンショット
+1. **トップページ**
+   ![トップ画面のスクショ](./public/screenshot1.png)
+   シンプルなUIで、すぐに棋譜ファイルをアップロードできるようにしました。
 
-| トップ画面 (Kifu入力) | プレビュー＆プレイヤー | GIF生成中 (プログレス) | 
-| :---: | :---: | :---: | 
-| ![Top](./docs/screenshot1.png) | ![Preview](./docs/screenshot2.png) | ![Generating](./docs/screenshot3.png) |
+2. **盤面プレビュー画面**
+   ![プレビュー画面のスクショ](./public/screenshot2.png)
+   読み込んだ棋譜が正しく反映されているか、再生ボタンで確認できます。
 
-| シェアページ (OGP表示) | OGP Twitter プレビュー |
-| :---: | :---: |
-| ![Share](./docs/screenshot4.png) | ![Twitter](./docs/screenshot5.png) |
+3. **GIF生成中の様子**
+   ![生成中のスクショ](./public/screenshot3.png)
+   変換中は進捗がわかるようにしています。
 
-*(※スクリーンショットの画像は `docs/` ディレクトリに配置してください)*
+4. **シェア用ページ**
+   ![シェアページのスクショ](./public/screenshot4.png)
+   生成したGIFが再生される専用ページです。ここからダウンロードやXへのシェアが可能です。
 
-## 💻 使用技術 / アーキテクチャ
+5. **X (Twitter) でシェアした様子**
+   ![Xのスクショ](./public/screenshot5.png)
+   作成したGIF付きで簡単に投稿できます。
 
-*   **フロントエンド:** Next.js 15 (App Router), React 19, Tailwind CSS v4, Lucide React
-*   **バックエンド / インフラ:** Vercel (Hosting, Serverless Functions)
-*   **データベース / ストレージ:** Supabase (PostgreSQL, Supabase Storage)
-*   **棋譜解析:** `json-kifu-format`
-*   **画像生成エンジン:** HTML5 Canvas API + `gif.js` (Web Worker)
-*   **CI/CD:** GitHub Actions (Ping自動化), Vercel
+## 工夫したところ・頑張ったポイント
+- **フロントエンドでのGIF生成**: サーバーに負荷をかけないよう、クライアント側（ブラウザ側）でCanvasを使って1コマずつ盤面を描画し、それを束ねてGIF化する処理を実装しました。意外と重い処理なので、少しでもサクサク動くように調整を頑張りました。
+- **Supabaseの活用**: 生成したGIFをホスティングしてシェアURLを発行するために、バックエンドにはSupabase（StorageとDatabase）を使っています。
+- **UI/UX**: Vercelにデプロイすることを前提に、全体的にシンプルで使いやすい、モダンなデザイン（Tailwind CSS）を意識して作りました。
 
-## 🚀 ローカルでの動かし方
+## 使用技術
+- **Framework**: Next.js (App Router), React
+- **Styling**: Tailwind CSS
+- **Backend / Storage**: Supabase
+- **Deployment**: Vercel
+- **Others**: json-kifu-format (棋譜のパース), gifencoder (GIF生成)
 
-### 1. リポジトリのクローンと依存パッケージのインストール
+## 動かし方 (ローカル環境)
+リポジトリをクローンして手元で動かす手順です。
 
 ```bash
-git clone https://github.com/your-username/kif2gif.git
-cd kif2gif
+# 依存パッケージのインストール
 npm install
-```
 
-### 2. 環境変数の設定
+# 環境変数の設定
+# .env.example の内容を .env.local にコピーして、Supabaseのキーなどを設定してください。
 
-`.env.example` をコピーして `.env.local` を作成し、SupabaseのURLとキーを入力します。
-
-```bash
-cp .env.example .env.local
-```
-
-```env
-# .env.local
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-# RLS設定に応じてサービスロールキーが必要な場合があります
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-```
-
-### 3. Supabase テーブル・バケットの準備
-
-1.  **Storage:** `gifs` という名前の「Public」バケットを作成します。
-2.  **Database:** `shared_gifs` テーブルを作成します。
-    ```sql
-    create table shared_gifs (
-      id uuid primary key default uuid_generate_v4(),
-      title text not null default '将棋 GIF',
-      gif_url text not null,
-      created_at timestamp with time zone default timezone('utc'::text, now()) not null
-    );
-    ```
-
-### 4. 開発サーバーの起動
-
-```bash
+# 開発サーバーの起動
 npm run dev
 ```
-
-`http://localhost:3000` にアクセスしてアプリケーションを開きます。
-
-## 💡 工夫した点
-
-1.  **CanvasとWeb Workerの分離:** パフォーマンス向上のため、Canvasへのコマごとの描画と、重いGIFエンコード処理を分離。`gif.worker.js` を Public フォルダに配置し、非同期でエンコードを行うことで、プログレスバーのアニメーション中もUIがカクつかないようにしました。
-2.  **Shift-JISへの対応:** 既存の将棋ソフト等で出力される `.kif` は Shift-JIS エンコーディングであることが多いため、`TextDecoder` で文字化けを防ぐフォールバック処理をクライアントサイドで実装しています。
-3.  **App Router を最大限に活用した動的OGP:** `/share/[id]` パスで `generateMetadata` を利用してSupabaseからメタデータと画像URLを取得し、動的なTwitter Cardを生成するようにしました。
-
-## ⏱️ 開発期間
-約 **25** 時間
-
----
-
-© 2026 Kif2Gif Web. Created for Portfolio.
+ブラウザで `http://localhost:3000` にアクセスすると表示されます。
