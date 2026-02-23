@@ -110,7 +110,7 @@ export default function ShogiBoard({ player, onClose }: ShogiBoardProps) {
         for (let x = 0; x < 9; x++) {
             for (let y = 0; y < 9; y++) {
                 const piece = board[x][y];
-                if (!piece) continue;
+                if (!piece || !piece.kind) continue;
 
                 const char = PIECE_MAP[piece.kind] || "?";
                 const isBlack = piece.color === 0;
@@ -129,7 +129,7 @@ export default function ShogiBoard({ player, onClose }: ShogiBoardProps) {
                     // White (Gote) is upside down
                     ctx.rotate(Math.PI);
                 }
-                ctx.fillText(char, 0, 0);
+                ctx.fillText(char, 0, 2); // 2px offset for visual center
                 ctx.restore();
             }
         }
@@ -235,7 +235,7 @@ export default function ShogiBoard({ player, onClose }: ShogiBoardProps) {
                 const data = await res.json();
 
                 // Redirect to share page
-                router.push(`/ share / ${data.id} `);
+                router.push(`/share/${data.id}`);
 
             } catch (err: any) {
                 console.error(err);
