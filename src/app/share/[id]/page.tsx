@@ -105,7 +105,7 @@ export default async function SharePage({ params }: Props) {
                     </a>
 
                     <a
-                        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_SITE_URL}/share/${id}`)}&text=${encodeURIComponent(`将棋の棋譜からGIF画像を作成しました！ ${data.title}\n`)}`}
+                        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`${process.env.NEXT_PUBLIC_SITE_URL || (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'))}/share/${id}`)}&text=${encodeURIComponent(`将棋の棋譜からGIF画像を作成しました！ ${data.title}\n`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 py-3 px-4 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white rounded-xl font-medium transition-colors"
